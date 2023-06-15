@@ -25,6 +25,13 @@ void ZRender::Init() {
         return;
     }
 
+    shaderProgram.Init();
+
+    if (shaderProgram.GetState() == ZShaderProgram::Failed) {
+        message_ = shaderProgram.GetMessage();
+        state_ = Failed;
+    }
+
     state_ = Running;
 }
 

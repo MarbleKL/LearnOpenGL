@@ -9,6 +9,7 @@
 #include <GLFW/glfw3.h>
 #include <string>
 #include "ZStateful.h"
+#include "ZShaderProgram.h"
 
 
 class ZRender : public ZStateful {
@@ -39,6 +40,7 @@ private:
     const int SCR_WIDTH = 800;
     const int SCR_HEIGHT = 600;
     GLFWwindow *window{};
+    ZShaderProgram shaderProgram;
 
     float vertices[9] = {
             -0.5f, -0.5f, 0.0f,
