@@ -5,7 +5,6 @@
 #include "ZShader.h"
 #include <fstream>
 #include <format>
-#include <utility>
 #include <glad/glad.h>
 
 ZShader::ShaderId ZShader::GetId() const {

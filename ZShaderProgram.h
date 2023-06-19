@@ -9,8 +9,9 @@
 #include "ZShader.h"
 #include <list>
 
-class ZShaderProgram : public ZStateful{
+class ZShaderProgram : public ZStateful {
 public:
+    typedef unsigned int ShaderProgramId;
     enum State {
         Uninitialized = 0,
         NotLinked,
@@ -25,9 +26,12 @@ public:
 
     void Use();
 
+    [[nodiscard]] ShaderProgramId GetId() const;
+
 private:
     const char *SHADER_PATH = "../Shader";
     std::list<ZShader> shaderList_[ZShader::ShaderTypeLength];
+    ShaderProgramId id_;
 };
 
 

@@ -4,12 +4,13 @@
 
 #include "ZShaderProgram.h"
 #include <filesystem>
+#include <glad/glad.h>
 
 void ZShaderProgram::Init() {
     for (const auto &entry: std::filesystem::directory_iterator(SHADER_PATH)) {
         std::string path = entry.path().generic_string();
 
-        ZShader::ShaderType shaderType;
+        ZShader::ShaderType shaderType = ZShader::Vertex;
 
         if (entry.path().extension().compare(".vsh") == 0) {
             shaderType = ZShader::Vertex;
@@ -31,4 +32,40 @@ void ZShaderProgram::Init() {
         shaderList_[shaderType].push_back(std::move(shader));
     }
     state_ = NotLinked;
+}
+
+void ZShaderProgram::Link() {
+    id_ = glCreateProgram();
+    for (const auto &shader: shaderList_[ZShader::Vertex]) {
+        glAttachShader(id_, shader.GetId());
+    }
+    for (const auto &shader: shaderList_[ZShader::Fragment]) {
+        glAttachShader(id_, shader.GetId());
+    }
+    glLinkProgram(id_);
+    for (const auto &shader: shaderList_[ZShader::Vertex]) {
+        glDeleteShader(shader.GetId());
+    }
+    for (const auto &shader: shaderList_[ZShader::Fragment]) {
+        glDeleteShader(shader.GetId());
+    }
+
+    int success;
+    glGetProgramiv(id_, GL_LINK_STATUS, &success);
+    if (!success) {
+        char info[512];
+        glGetProgramInfoLog(id_, 512, nullptr, info);
+        message_.append(info);
+        state_ = Failed;
+        return;
+    }
+
+}
+
+ZShaderProgram::ShaderProgramId ZShaderProgram::GetId() const {
+    return id_;
+}
+
+void ZShaderProgram::Use() {
+    glUseProgram(id_);
 }
