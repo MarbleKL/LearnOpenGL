@@ -10,17 +10,24 @@ class ZBuffer {
 public:
     [[nodiscard]] T *GetBuffer() const;
 
-    [[nodiscard]] unsigned int GetSize() const;
+    [[nodiscard]] int GetSize() const;
 
-    void SetBuffer(T *buf, unsigned int len);
+    [[nodiscard]] int GetLength() const;
+
+    void SetBuffer(T *buf, int len);
 
     ~ZBuffer();
 
 private:
     T *buffer_;
-    unsigned int length_;
+    int length_;
 
 };
+
+template<class T>
+int ZBuffer<T>::GetLength() const {
+    return length_;
+}
 
 template<class T>
 ZBuffer<T>::~ZBuffer() {
@@ -28,7 +35,7 @@ ZBuffer<T>::~ZBuffer() {
 }
 
 template<class T>
-unsigned int ZBuffer<T>::GetSize() const {
+int ZBuffer<T>::GetSize() const {
     return sizeof(T) * length_;
 }
 
@@ -39,7 +46,7 @@ T *ZBuffer<T>::GetBuffer() const {
 
 
 template<class T>
-void ZBuffer<T>::SetBuffer(T *buf, unsigned int len) {
+void ZBuffer<T>::SetBuffer(T *buf, int len) {
     buffer_ = buf;
     length_ = len;
 }
