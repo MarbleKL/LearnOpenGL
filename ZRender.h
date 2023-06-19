@@ -10,6 +10,7 @@
 #include <string>
 #include "ZStateful.h"
 #include "ZShaderProgram.h"
+#include "ZBuffer.h"
 
 
 class ZRender : public ZStateful {
@@ -45,17 +46,19 @@ private:
     unsigned int VBO;
     unsigned int VAO;
     unsigned int EBO;
-    float vertices[12] = {
-            0.5f, 0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            -0.5f, -0.5f, 0.0f,
-            -0.5f, 0.5f, 0.0f
-    };
-
-    unsigned int indices[6] = {
-            0, 1, 3,
-            1, 2, 3
-    };
+//    float vertices[12] = {
+//            0.5f, 0.5f, 0.0f,
+//            0.5f, -0.5f, 0.0f,
+//            -0.5f, -0.5f, 0.0f,
+//            -0.5f, 0.5f, 0.0f
+//    };
+//
+//    unsigned int indices[6] = {
+//            0, 1, 3,
+//            1, 2, 3
+//    };
+    ZBuffer<float> vertices;
+    ZBuffer<unsigned int> indices;
 };
 
 
