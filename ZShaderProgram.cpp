@@ -32,6 +32,7 @@ void ZShaderProgram::Init() {
         shaderList_[shaderType].push_back(std::move(shader));
     }
     state_ = NotLinked;
+    Link();
 }
 
 void ZShaderProgram::Link() {
@@ -59,13 +60,17 @@ void ZShaderProgram::Link() {
         state_ = Failed;
         return;
     }
-
+    state_ = NotUsed;
 }
 
-ZShaderProgram::ShaderProgramId ZShaderProgram::GetId() const {
-    return id_;
-}
-
-void ZShaderProgram::Use() {
+void ZShaderProgram::Use() const {
     glUseProgram(id_);
+}
+
+void ZShaderProgram::Stop() {
+    glDeleteProgram(id_);
+}
+
+void ZShaderProgram::Update() {
+    Use();
 }

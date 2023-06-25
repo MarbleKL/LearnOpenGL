@@ -22,16 +22,20 @@ public:
 
     void Init();
 
-    void Link();
+    void Update();
 
-    void Use();
-
-    [[nodiscard]] ShaderProgramId GetId() const;
+    void Stop();
 
 private:
     const char *SHADER_PATH = "../Shader";
     std::list<ZShader> shaderList_[ZShader::ShaderTypeLength];
     ShaderProgramId id_;
+
+private:
+
+    void Link();
+
+    void Use() const;
 };
 
 

@@ -4,7 +4,7 @@
 
 #include "ZRender.h"
 
-void ZRender::Init() {
+void ZRender::Init(bool lineMode) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -26,7 +26,6 @@ void ZRender::Init() {
     }
 
     shaderProgram.Init();
-    shaderProgram.Link();
 
     if (shaderProgram.GetState() == ZShaderProgram::Failed) {
         message_ = shaderProgram.GetMessage();
@@ -34,26 +33,7 @@ void ZRender::Init() {
         return;
     }
 
-    vertices.SetBuffer(new float[]{0.5f, 0.5f, 0.0f,
-                                   0.5f, -0.5f, 0.0f,
-                                   -0.5f, -0.5f, 0.0f,
-                                   -0.5f, 0.5f, 0.0f}, 12);
-    indices.SetBuffer(new unsigned int[]{0, 1, 3,
-                                         1, 2, 3}, 6);
-
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertices.GetSize(), vertices.GetBuffer(),
-                 GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.GetSize(), indices.GetBuffer(), GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
-    glEnableVertexAttribArray(0);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    bufferManager.Init(lineMode);
 
     state_ = Running;
 }
@@ -71,10 +51,8 @@ void ZRender::Update() {
     glClear(GL_COLOR_BUFFER_BIT);
 
 
-    shaderProgram.Use();
-    glBindVertexArray(VAO);
-//    glDrawArrays(GL_TRIANGLES, 0, 3);
-    glDrawElements(GL_TRIANGLES, indices.GetLength(), GL_UNSIGNED_INT, nullptr);
+    shaderProgram.Update();
+    bufferManager.Update();
 
     // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
     // -------------------------------------------------------------------------------
@@ -85,11 +63,8 @@ void ZRender::Update() {
 
 void ZRender::Stop() {
     state_ = Stopped;
-
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &EBO);
-    glDeleteProgram(shaderProgram.GetId());
+    shaderProgram.Stop();
+    bufferManager.Stop();
     glfwTerminate();
 }
 

@@ -3,7 +3,7 @@ project(LearnOpenGL)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(LearnOpenGL main.cpp glad.c ZRender.cpp ZRender.h ZShader.cpp ZShader.h ZShaderProgram.cpp ZShaderProgram.h ZStateful.h ZBuffer.h)
+add_executable(LearnOpenGL main.cpp glad.c ZRender.cpp ZRender.h ZShader.cpp ZShader.h ZShaderProgram.cpp ZShaderProgram.h ZStateful.h ZBuffer.h ZBufferManager.cpp ZBufferManager.h)
 
 include_directories("./glfw/include")
 
