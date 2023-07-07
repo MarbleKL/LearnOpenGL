@@ -6,9 +6,8 @@
 #define LEARNOPENGL_ZSHADER_H
 
 #include <string>
-#include "ZStateful.h"
 
-class ZShader : public ZStateful {
+class ZShader {
 public:
     typedef unsigned int ShaderId;
     enum State {

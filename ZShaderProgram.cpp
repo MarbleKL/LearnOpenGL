@@ -23,15 +23,8 @@ void ZShaderProgram::Init() {
         shader.Load();
         shader.Compile();
 
-        if (shader.GetState() == ZShader::Failed) {
-            message_ = shader.GetMessage();
-            state_ = Failed;
-            return;
-        }
-
         shaderList_[shaderType].push_back(std::move(shader));
     }
-    state_ = NotLinked;
     Link();
 }
 
@@ -56,11 +49,8 @@ void ZShaderProgram::Link() {
     if (!success) {
         char info[512];
         glGetProgramInfoLog(id_, 512, nullptr, info);
-        message_.append(info);
-        state_ = Failed;
-        return;
+        throw std::exception(info);
     }
-    state_ = NotUsed;
 }
 
 void ZShaderProgram::Use() const {

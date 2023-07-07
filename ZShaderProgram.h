@@ -9,7 +9,7 @@
 #include "ZShader.h"
 #include <list>
 
-class ZShaderProgram : public ZStateful {
+class ZShaderProgram {
 public:
     typedef unsigned int ShaderProgramId;
     enum State {

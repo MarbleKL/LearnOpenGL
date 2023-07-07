@@ -2,13 +2,12 @@
 #include "ZRender.h"
 
 int main() {
-    ZRender::Instance().Init();
-    if (ZRender::Instance().GetState() == ZRender::Failed) {
-        std::cout << ZRender::Instance().GetMessage() << std::endl;
+    try {
+        ZRender::Instance().Init();
+        while (ZRender::Instance().Update());
     }
-
-    while (ZRender::Instance().GetState() == ZRender::Running) {
-        ZRender::Instance().Update();
+    catch (std::exception &e) {
+        std::cout << e.what() << std::endl;
     }
 
     return 0;

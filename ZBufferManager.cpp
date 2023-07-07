@@ -9,8 +9,12 @@ void ZBufferManager::Init(bool lineMode) {
     vertices.SetBuffer(new float[]{0.5f, 0.5f, 0.0f,
                                    0.5f, -0.5f, 0.0f,
                                    -0.5f, -0.5f, 0.0f,
-                                   -0.5f, 0.5f, 0.0f}, 12);
-    indices.SetBuffer(new unsigned int[]{0, 1, 3,
+                                   -0.5f, 0.5f, 0.0f,
+                                   0.0f, 0.5f, 0.0f}, 15);
+//    indices.SetBuffer(new unsigned int[]{0, 1, 3,
+//                                         1, 2, 3}, 6);
+
+    indices.SetBuffer(new unsigned int[]{1, 2, 4,
                                          1, 2, 3}, 6);
 
     glGenVertexArrays(1, &VAO);
@@ -34,7 +38,6 @@ void ZBufferManager::Init(bool lineMode) {
 void ZBufferManager::Update() {
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, indices.GetLength(), GL_UNSIGNED_INT, nullptr);
-
 }
 
 void ZBufferManager::Stop() {

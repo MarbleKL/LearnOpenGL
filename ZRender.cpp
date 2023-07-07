@@ -4,52 +4,38 @@
 
 #include "ZRender.h"
 
-void ZRender::Init(bool lineMode) {
+void ZRender::Init(bool lineMode, int scr_width, int scr_height) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", nullptr, nullptr);
+    window = glfwCreateWindow(scr_width, scr_height, "LearnOpenGL", nullptr, nullptr);
     if (window == nullptr) {
-        message_ = "Failed to create GLFW window";
-        state_ = Failed;
-        glfwTerminate();
-        return;
+        throw std::exception("Failed to create GLFW window");
     }
+
     glfwMakeContextCurrent(window);
 
     if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
-        message_ = "Failed to initialize GLAD";
-        state_ = Failed;
-        return;
+        throw std::exception("Failed to initialize GLAD");
     }
 
     shaderProgram.Init();
 
-    if (shaderProgram.GetState() == ZShaderProgram::Failed) {
-        message_ = shaderProgram.GetMessage();
-        state_ = Failed;
-        return;
-    }
-
     bufferManager.Init(lineMode);
-
-    state_ = Running;
 }
 
-void ZRender::Update() {
-    if (state_ != Running)
-        return;
-
-    if (glfwWindowShouldClose(window))
+bool ZRender::Update() {
+    if (glfwWindowShouldClose(window)) {
         Stop();
+        return false;
+    }
 
     processInput();
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-
 
     shaderProgram.Update();
     bufferManager.Update();
@@ -58,11 +44,11 @@ void ZRender::Update() {
     // -------------------------------------------------------------------------------
     glfwSwapBuffers(window);
     glfwPollEvents();
+    return true;
 }
 
 
 void ZRender::Stop() {
-    state_ = Stopped;
     shaderProgram.Stop();
     bufferManager.Stop();
     glfwTerminate();
