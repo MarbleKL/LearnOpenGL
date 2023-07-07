@@ -5,50 +5,42 @@
 #ifndef LEARNOPENGL_ZBUFFER_H
 #define LEARNOPENGL_ZBUFFER_H
 
+#include <vector>
+
 template<class T>
 class ZBuffer {
 public:
-    [[nodiscard]] T *GetBuffer() const;
+    [[nodiscard]] T *GetBuffer();
 
     [[nodiscard]] int GetSize() const;
 
     [[nodiscard]] int GetLength() const;
 
-    void SetBuffer(T *buf, int len);
-
-    ~ZBuffer();
+    void PushBack(T element);
 
 private:
-    T *buffer_;
-    int length_;
-
+    std::vector<T> buffer_;
 };
 
 template<class T>
 int ZBuffer<T>::GetLength() const {
-    return length_;
-}
-
-template<class T>
-ZBuffer<T>::~ZBuffer() {
-    delete buffer_;
+    return buffer_.size();
 }
 
 template<class T>
 int ZBuffer<T>::GetSize() const {
-    return sizeof(T) * length_;
+    return sizeof(T) * buffer_.size();
 }
 
 template<class T>
-T *ZBuffer<T>::GetBuffer() const {
-    return buffer_;
+T *ZBuffer<T>::GetBuffer() {
+    return buffer_.data();
 }
 
 
 template<class T>
-void ZBuffer<T>::SetBuffer(T *buf, int len) {
-    buffer_ = buf;
-    length_ = len;
+void ZBuffer<T>::PushBack(T element) {
+    buffer_.push_back(element);
 }
 
 

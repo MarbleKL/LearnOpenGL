@@ -11,15 +11,10 @@ void ZRender::Init(bool lineMode, int scr_width, int scr_height) {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     window = glfwCreateWindow(scr_width, scr_height, "LearnOpenGL", nullptr, nullptr);
-    if (window == nullptr) {
-        throw std::exception("Failed to create GLFW window");
-    }
+    if (window == nullptr) throw std::exception("Failed to create GLFW window");
 
     glfwMakeContextCurrent(window);
-
-    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
-        throw std::exception("Failed to initialize GLAD");
-    }
+    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) throw std::exception("Failed to initialize GLAD");
 
     shaderProgram.Init();
 

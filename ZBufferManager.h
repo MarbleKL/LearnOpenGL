@@ -5,7 +5,9 @@
 #ifndef LEARNOPENGL_ZBUFFERMANAGER_H
 #define LEARNOPENGL_ZBUFFERMANAGER_H
 
+#include <list>
 #include "ZBuffer.h"
+#include "ZObject.h"
 
 class ZBufferManager {
 public:
@@ -18,12 +20,7 @@ public:
 
 
 private:
-    unsigned int VBO{};
-    unsigned int VAO{};
-    unsigned int EBO{};
-
-    ZBuffer<float> vertices{};
-    ZBuffer<unsigned int> indices{};
+    std::list<ZObject*> objectList_;
 };
 
 
