@@ -20,7 +20,7 @@ public:
 
 
 private:
-    std::list<ZObject*> objectList_;
+    std::vector<ZObject*> objectList_;
 };
 
 

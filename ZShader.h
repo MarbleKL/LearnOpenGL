@@ -10,13 +10,6 @@
 class ZShader {
 public:
     typedef unsigned int ShaderId;
-    enum State {
-        Uninitialized = 0,
-        Unloaded,
-        NotCompiled,
-        Compiled,
-        Failed,
-    };
 
     enum ShaderType {
         Vertex = 0,

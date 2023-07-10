@@ -9,7 +9,7 @@ add_executable(LearnOpenGL
         ZRender.cpp
         ZRender.h
         ZShader.cpp ZShader.h ZShaderProgram.cpp ZShaderProgram.h ZBuffer.h ZBufferManager.cpp ZBufferManager.h
-        ZObject.cpp ZObject.h ZObject.h ZRectangle.cpp ZRectangle.h)
+        ZObject.cpp ZObject.h ZObject.h ZRectangle.cpp ZRectangle.h ZTexture.cpp ZTexture.h stb_image.h)
 
 include_directories("./glfw/include")
 

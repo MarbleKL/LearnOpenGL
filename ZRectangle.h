@@ -11,14 +11,10 @@
 class ZRectangle : public ZObject {
 public:
 
-
 protected:
     void InitVertices() override;
 
     void InitIndices() override;
-
-private:
-
 };
 
 

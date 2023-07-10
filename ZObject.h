@@ -6,11 +6,17 @@
 #define LEARNOPENGL_ZOBJECT_H
 
 #include <vector>
+#include <string>
 #include "ZBuffer.h"
+#include "ZTexture.h"
 
 class ZObject {
 public:
-    virtual void Init(float scale = 1, bool colourful = true, bool texture = false);
+    typedef unsigned int VertexBufferId;
+    typedef unsigned int VertexArrayId;
+    typedef unsigned int ElementBufferId;
+
+    virtual void Init(float scale, bool colourful, bool texture, std::string path);
 
     void Update();
 
@@ -24,15 +30,16 @@ protected:
     virtual void InitIndices() {};
 
 protected:
-    unsigned int VBO{};
-    unsigned int VAO{};
-    unsigned int EBO{};
+    VertexBufferId vertexBufferId_{};
+    VertexArrayId vertexArrayId_{};
+    ElementBufferId elementBufferId_{};
 
-    ZBuffer<double> vertices{};
-    ZBuffer<unsigned int> indices{};
+    ZBuffer<double> vertices_{};
+    ZBuffer<unsigned int> indices_{};
+    ZTexture texture_;
 
     bool colourful_ = true;
-    bool texture_ = false;
+    bool useTexture_ = false;
 
     double scale_{};
 };

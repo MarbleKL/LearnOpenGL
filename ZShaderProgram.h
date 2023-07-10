@@ -12,13 +12,6 @@
 class ZShaderProgram {
 public:
     typedef unsigned int ShaderProgramId;
-    enum State {
-        Uninitialized = 0,
-        NotLinked,
-        NotUsed,
-        Used,
-        Failed,
-    };
 
     void Init();
 
